@@ -1,0 +1,172 @@
+_schema-version: 3.3.0
+ID: park-management
+version: 1.0.0
+description: "A simple CAP project."
+parameters:
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm ci
+        - npx -p @sap/cds-dk cds build --production
+modules:
+  - name: park-management-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      instances: 1
+      buildpack: nodejs_buildpack
+      readiness-health-check-type: http
+      readiness-health-check-http-endpoint: /health      
+    build-parameters:
+      builder: npm-ci
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: park-management-db
+      - name: park-management-auth
+      - name: park-management-destination
+
+  - name: park-management-db-deployer
+    type: hdb
+    path: gen/db
+    parameters:
+      buildpack: nodejs_buildpack
+    requires:
+      - name: park-management-db
+
+  - name: park-management-app-deployer
+    type: com.sap.application.content
+    path: .
+    requires:
+      - name: park-management-html5-repo-host
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: resources
+      requires:
+        - name: parking-lot
+          artifacts:
+            - parkinglot.zip
+          target-path: resources/
+        - name: vehicles
+          artifacts:
+            - vehicles.zip
+          target-path: resources/
+
+  - name: parking-lot
+    type: html5
+    path: app/parking-lot
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm install
+        - npm run build:cf
+        - npm ci
+        - npm run build:mta
+      supported-platforms:
+        []          
+
+  - name: vehicles
+    type: html5
+    path: app/vehicles
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm install
+        - npm run build:cf
+        - npm ci
+        - npm run build:mta
+      supported-platforms:
+        []
+
+  - name: park-management-destinations
+    type: com.sap.application.content
+    requires:
+      - name: park-management-auth
+        parameters:
+          service-key:
+            name: park-management-auth-key
+      - name: park-management-html5-repo-host
+        parameters:
+          service-key:
+            name: park-management-html5-repo-host-key
+      - name: srv-api
+      - name: park-management-destination
+        parameters:
+          content-target: true
+    build-parameters:
+      no-source: true
+    parameters:
+      content:
+        instance:
+          existing_destinations_policy: update
+          destinations:
+            - Name: park-management-html5-repository
+              ServiceInstanceName: park-management-html5-repo-host
+              ServiceKeyName: park-management-html5-repo-host-key
+              sap.cloud.service: parkmanagement.service
+            - Name: park-management-auth
+              Authentication: OAuth2UserTokenExchange
+              ServiceInstanceName: park-management-auth
+              ServiceKeyName: park-management-auth-key
+              sap.cloud.service: parkmanagement.service
+
+resources:
+  - name: park-management-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+
+  - name: park-management-html5-repo-host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host
+
+  - name: park-management-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: park-management-${org}-${space}
+        tenant-mode: dedicated
+
+  - name: park-management-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite
+      config:
+        HTML5Runtime_enabled: true
+        init_data:
+          instance:
+            existing_destinations_policy: update
+            destinations:
+              - Name: park-management-srv-api
+                URL: ~{srv-api/srv-url}
+                Authentication: NoAuthentication
+                Type: HTTP
+                ProxyType: Internet
+                HTML5.ForwardAuthToken: true
+                HTML5.DynamicDestination: true
+              - Name: ui5
+                URL: https://ui5.sap.com
+                Authentication: NoAuthentication
+                Type: HTTP
+                ProxyType: Internet
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          name: srv-api # must be used in xs-app.json as well
+          url: ~{srv-url}
+          forwardAuthToken: true

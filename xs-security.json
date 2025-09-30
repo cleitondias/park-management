@@ -1,0 +1,20 @@
+{
+  "xsappname": "park-management",
+  "tenant-mode": "dedicated",
+  "description": "Security descriptor for park-management application",
+  "scopes": [
+    {
+      "name": "uaa.user",
+      "description": "UAA"
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "Token_Exchange",
+      "description": "UAA",
+      "scope-references": [
+        "uaa.user"
+      ]
+    }
+  ]
+}

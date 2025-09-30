@@ -1,0 +1,181 @@
+{
+  "_version": "1.65.0",
+  "sap.app": {
+    "id": "parkinglot",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:lrop",
+      "version": "1.18.2",
+      "toolsId": "78024039-1c48-4ae3-8603-3f87dcb67e6a"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/odata/v4/parking/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "odataVersion": "4.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.140.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.fe.templates": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "parkinglot.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      },
+      "@i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "uri": "i18n/i18n.properties"
+      }
+    },
+    "resources": {
+      "css": []
+    },
+    "routing": {
+      "config": {},
+      "routes": [
+        {
+          "pattern": ":?query:",
+          "name": "ParkingLotsList",
+          "target": "ParkingLotsList"
+        },
+        {
+          "pattern": "ParkingLots({key}):?query:",
+          "name": "ParkingLotsObjectPage",
+          "target": "ParkingLotsObjectPage"
+        },
+        {
+          "name": "ParkingLots_spotsObjectPage",
+          "pattern": "ParkingLots({key})/spots({spotsKey}):?query:",
+          "target": "ParkingLots_spotsObjectPage"
+        }
+      ],
+      "targets": {
+        "ParkingLotsList": {
+          "type": "Component",
+          "id": "ParkingLotsList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/ParkingLots",
+              "variantManagement": "Page",
+              "navigation": {
+                "ParkingLots": {
+                  "detail": {
+                    "route": "ParkingLotsObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ParkingLotsObjectPage": {
+          "type": "Component",
+          "id": "ParkingLotsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/ParkingLots",
+              "controlConfiguration": {
+                "spots/@com.sap.vocabularies.UI.v1.LineItem#i18nParkingSpots": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable",
+                    "selectionMode": "Multi",
+                    "selectAll": true
+                  },
+                  "actions": {
+                    "DataFieldForAction::ParkingService.EntityContainer::ReleaseSpot": {
+                      "enableOnSelect": "single"
+                    },
+                    "DataFieldForAction::ParkingService.EntityContainer::ReserveSpot": {
+                      "enableOnSelect": "single"
+                    }
+                  }
+                }
+              },
+              "navigation": {
+                "spots": {
+                  "detail": {
+                    "route": "ParkingLots_spotsObjectPage"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ParkingLots_spotsObjectPage": {
+          "type": "Component",
+          "id": "ParkingLots_spotsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "navigation": {},
+              "contextPath": "/ParkingLots/spots"
+            }
+          }
+        }
+      }
+    }
+  },
+  "sap.fiori": {
+    "registrationIds": [],
+    "archeType": "transactional"
+  }
+}
