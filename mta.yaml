@@ -8,7 +8,7 @@ build-parameters:
   before-all:
     - builder: custom
       commands:
-        - npm ci
+        - npm install
         - npx -p @sap/cds-dk cds build --production
 modules:
   - name: park-management-srv
@@ -17,8 +17,10 @@ modules:
     parameters:
       instances: 1
       buildpack: nodejs_buildpack
+      disk-quotas: 256M
+      memory: 512M
       readiness-health-check-type: http
-      readiness-health-check-http-endpoint: /health      
+      readiness-health-check-http-endpoint: /health
     build-parameters:
       builder: npm-ci
     provides:
@@ -26,17 +28,19 @@ modules:
         properties:
           srv-url: ${default-url}
     requires:
-      - name: park-management-db
+      - name: parking-db
       - name: park-management-auth
       - name: park-management-destination
 
-  - name: park-management-db-deployer
+  - name: parking-db-deployer
     type: hdb
     path: gen/db
     parameters:
       buildpack: nodejs_buildpack
+      disk-quotas: 256M
+      memory: 512M
     requires:
-      - name: park-management-db
+      - name: parking-db
 
   - name: park-management-app-deployer
     type: com.sap.application.content
@@ -66,10 +70,8 @@ modules:
       commands:
         - npm install
         - npm run build:cf
-        - npm ci
-        - npm run build:mta
       supported-platforms:
-        []          
+        []
 
   - name: vehicles
     type: html5
@@ -80,8 +82,6 @@ modules:
       commands:
         - npm install
         - npm run build:cf
-        - npm ci
-        - npm run build:mta
       supported-platforms:
         []
 
@@ -118,7 +118,7 @@ modules:
               sap.cloud.service: parkmanagement.service
 
 resources:
-  - name: park-management-db
+  - name: parking-db
     type: com.sap.xs.hdi-container
     parameters:
       service: hana
