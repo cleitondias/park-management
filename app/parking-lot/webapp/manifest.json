@@ -24,6 +24,20 @@
           "odataVersion": "4.0"
         }
       }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "ParkingLots-display": {
+          "semanticObject": "ParkingLots",
+          "action": "display",
+          "title": "{{appTitle}}",
+          "icon": "sap-icon://insurance-car",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
     }
   },
   "sap.ui": {

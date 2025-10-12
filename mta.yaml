@@ -10,7 +10,6 @@ build-parameters:
       commands:
         - npm install
         - npx -p @sap/cds-dk cds build --production
-        - cp -r db.sqlite gen/srv
 modules:
   - name: park-management-srv
     type: nodejs
@@ -38,7 +37,7 @@ modules:
     path: gen/db
     parameters:
       buildpack: nodejs_buildpack
-      disk-quotas: 512M
+      disk-quotas: 256M
       memory: 512M
     requires:
       - name: parking-db
