@@ -9,8 +9,8 @@
     "@cap-js/hana": "^2",
     "@sap/cds": "^9.3.1",
     "@sap/cds-dk": "^9.3.0",
-    "express": "^4",
-    "@sap/xssec": "^4"
+    "@sap/xssec": "^4",
+    "express": "^4"
   },
   "engines": {
     "node": ">=20"
@@ -46,7 +46,10 @@
         }
       },
       "[production]": {
-        "auth": "xsuaa"
+        "auth": "xsuaa",
+        "db": {
+          "kind": "hana"
+        }
       }
     },
     "build": {
