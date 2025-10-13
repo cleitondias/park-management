@@ -30,6 +30,21 @@
           "odataVersion": "4.0"
         }
       }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "Vehicles-display": {
+          "semanticObject": "Vehicles",
+          "action": "display",
+          "title": "{{flpTitle}}",
+          "subTitle": "{{flpSubTitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          },
+          "icon": "sap-icon://car"
+        }
+      }
     }
   },
   "sap.ui": {
