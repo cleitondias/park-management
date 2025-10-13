@@ -30,8 +30,8 @@
         "Vehicles-display": {
           "semanticObject": "Vehicles",
           "action": "display",
-          "title": "{{flpTitle}}",
-          "subTitle": "{{flpSubTitle}}",
+          "title": "Vehicles Type",
+          "subTitle": "Vehicles Type",
           "signature": {
             "parameters": {},
             "additionalParameters": "allowed"
@@ -152,5 +152,9 @@
   "sap.fiori": {
     "registrationIds": [],
     "archeType": "transactional"
-  }
+  },
+  "sap.cloud": {
+    "public": true,
+    "service": "park-management"
+  }  
 }

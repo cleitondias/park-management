@@ -36,8 +36,8 @@
         "ParkingLots-display": {
           "semanticObject": "ParkingLots",
           "action": "display",
-          "title": "{{flpTitle}}",
-          "subTitle": "{{flpSubTitle}}",
+          "title": "Test Parking Lot",
+          "subTitle": "Test Parking Lot Subtitle",
           "signature": {
             "parameters": {},
             "additionalParameters": "allowed"
@@ -208,5 +208,9 @@
   "sap.fiori": {
     "registrationIds": [],
     "archeType": "transactional"
+  },
+  "sap.cloud": {
+    "public": true,
+    "service": "park-management"
   }
 }
