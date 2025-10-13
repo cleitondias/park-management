@@ -30,12 +30,13 @@
         "ParkingLots-display": {
           "semanticObject": "ParkingLots",
           "action": "display",
-          "title": "{{appTitle}}",
-          "icon": "sap-icon://insurance-car",
+          "title": "{{flpTitle}}",
+          "subTitle": "{{flpSubTitle}}",
           "signature": {
             "parameters": {},
             "additionalParameters": "allowed"
-          }
+          },
+          "icon": "sap-icon://insurance-car"
         }
       }
     }
