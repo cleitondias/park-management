@@ -17,8 +17,8 @@ modules:
     parameters:
       instances: 1
       buildpack: nodejs_buildpack
-      disk-quotas: 256M
-      memory: 256M
+      disk-quotas: 1024M
+      memory: 1024MB
       readiness-health-check-type: http
       readiness-health-check-http-endpoint: /health
     build-parameters:
@@ -37,8 +37,6 @@ modules:
     path: gen/db
     parameters:
       buildpack: nodejs_buildpack
-      disk-quotas: 256M
-      memory: 256M
     requires:
       - name: parking-db
 
