@@ -17,7 +17,7 @@ modules:
     parameters:
       instances: 1
       buildpack: nodejs_buildpack
-      disk-quotas: 512M
+      disk-quotas: 256M
       memory: 512M
       readiness-health-check-type: http
       readiness-health-check-http-endpoint: /health
