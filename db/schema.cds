@@ -1,12 +1,13 @@
 using {
     managed,
-    cuid
+    cuid,
+    Currency
 } from '@sap/cds/common';
 
 namespace cap.park_management;
 
 entity VehicleTypes  : cuid, managed {
-  code : String(1);
+  code     : String(1);
   name     : String(50);
 }
 
@@ -30,6 +31,8 @@ entity ParkingSpots : cuid, managed {
   isAvailable     : Boolean default true;
   lot             : Association to ParkingLots;
   occupancy       : Association to Occupancies;
+  price           : Decimal(9, 2);
+  currency        : Currency;
 }
 
 entity Vehicles : cuid, managed {
@@ -39,7 +42,8 @@ entity Vehicles : cuid, managed {
 }
 
 entity Occupancies: cuid, managed {
-  vehicle         : Association to Vehicles;
+  orderId         : Decimal(10, 0);
+  vehicle         : String(10);
   spot            : Association to ParkingSpots;
   startTime       : Timestamp;
   endTime         : Timestamp;

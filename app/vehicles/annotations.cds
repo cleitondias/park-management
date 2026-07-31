@@ -52,10 +52,17 @@ annotate service.Vehicles with {
         Common.ValueListWithFixedValues : true,
         Common.Text : vehicleType.name,
         Common.Text.@UI.TextArrangement : #TextOnly,
+        Common.ExternalID : vehicleType.name,
     )
 };
 
 annotate service.VehicleTypes with {
     ID @Common.Text : name
 };
+
+annotate service.VehicleTypes with {
+    code @(
+        Common.Text : name,
+        Common.Text.@UI.TextArrangement : #TextOnly,
+)};
 

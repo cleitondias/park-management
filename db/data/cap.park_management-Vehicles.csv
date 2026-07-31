@@ -1,0 +1,9 @@
+ID,plateNumber,ownerName,vehicleType_ID,createdAt,createdBy,modifiedAt,modifiedBy
+4486f44a-355b-46b8-86ba-45d0361d6b7f,ABC-1234,John Smith,ca364c1e-8ac1-4c05-9b37-a937de0bbbba,,,,
+56b28745-24ed-4263-bd64-c938466be61c,XYZ-5678,Maria Garcia,ca364c1e-8ac1-4c05-9b37-a937de0bbbba,,,,
+dab6d05b-c76e-4103-afb8-76aae40a31da,MC-9012,David Lee,bee01150-69ba-40da-9ba9-6261f905c677,,,,
+9851f2d8-01d0-403d-9d2a-7b5f39323c47,TRK-3456,Acme Logistics,99a389d8-4ba4-4ab4-ac7a-44f0ed281037,,,,
+a8e17363-39e6-4a88-acb6-77847a7c124c,BUS-7788,City Transit Co.,44109dfc-82aa-44b3-9664-296c194b0976,,,,
+323fd7fd-de4b-49b2-ae4d-4b64a2be26dd,CAR-2222,Sarah Johnson,ca364c1e-8ac1-4c05-9b37-a937de0bbbba,,,,
+d8207095-5d6a-478a-9d22-9bd952d9eb11,MOT-3333,Kevin Brown,bee01150-69ba-40da-9ba9-6261f905c677,,,,
+93aa66d3-fa7d-4f23-953d-f8377688b277,CAR-4444,Emily Davis,ca364c1e-8ac1-4c05-9b37-a937de0bbbba,,,,
