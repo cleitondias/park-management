@@ -1,8 +1,5 @@
-using {
-    managed,
-    cuid,
-    Currency
-} from '@sap/cds/common';
+using { managed, cuid, Currency } from '@sap/cds/common';
+using { cap.park_management.types.General } from './types';
 
 namespace cap.park_management;
 
@@ -31,7 +28,7 @@ entity ParkingSpots : cuid, managed {
   isAvailable     : Boolean default true;
   lot             : Association to ParkingLots;
   occupancy       : Association to Occupancies;
-  price           : Decimal(9, 2);
+  price           : General:amount;
   currency        : Currency;
 }
 
@@ -42,10 +39,11 @@ entity Vehicles : cuid, managed {
 }
 
 entity Occupancies: cuid, managed {
-  orderId         : Decimal(10, 0);
+  orderId         : General:orderID;
   vehicle         : String(10);
   spot            : Association to ParkingSpots;
   startTime       : Timestamp;
   endTime         : Timestamp;
   active          : Boolean default true;
+  total           : General:amount;
 }

@@ -1,4 +1,5 @@
 using {  cap.park_management as db } from '../db/schema';
+using { cap.park_management.types.General } from '../db/types';
 
 service ParkingService {
 
@@ -36,12 +37,19 @@ service ParkingService {
   };
 
   annotate VehicleTypes with @cds.odata.valuelist;
-  annotate SlotTypes with @cds.odata.valuelist;  
+  annotate SlotTypes with @cds.odata.valuelist;
   annotate Vehicles with {
     vehicleType @Common.Text: vehicleType.name;
-  };    
+  };
 
-  action ReleaseSpot(occupancyID: UUID) returns Boolean;
+  annotate ParkingLots with @(
+    Common.SideEffects #spotsChanged: {
+      SourceEntities   : [ spots ],
+      TargetProperties : [ 'totalSpots' ]
+    }
+  );
+
+  action ReleaseSpot(orderId: General:orderID) returns Boolean;
 
 }
 
